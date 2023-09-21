@@ -133,3 +133,4 @@ INSERT INTO `event` (`id`, `team_id`, `role_id`, `schedule_id`, `user_id`, `star
 /*!40000 ALTER TABLE `event` ENABLE KEYS */;
 UNLOCK TABLES;
 
+INSERT INTO oncall.application (id, name,`key`) VALUES (1,'test_app','test_key');

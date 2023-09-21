@@ -22,7 +22,7 @@ session:
   encrypt_key: 'abc'
   sign_key: '123'
 auth:
-  debug: False
+  debug: True
   module: 'oncall.auth.modules.debug'
 notifier:
   skipsend: True
@@ -34,7 +34,6 @@ messengers:
 
 # allow_origins_list:
 #   - http://www.example.com
-
 supported_timezones:
   - 'US/Pacific'
   - 'US/Eastern'
