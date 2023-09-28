@@ -17,6 +17,17 @@ services:
       - '--storage.tsdb.path=/prometheus'
     networks:
       - exter
+  blackbox:
+    image: prom/blackbox-exporter
+    container_name: blackbox
+    hostname: blackbox
+    restart: unless-stopped
+    command:
+      - "--config.file=/etc/blackbox/blackbox.yml"
+    volumes:
+      - ./blackbox.yml:/etc/blackbox/blackbox.yml
+    networks:
+      - exter
 
 volumes:
   prometheus_data:
