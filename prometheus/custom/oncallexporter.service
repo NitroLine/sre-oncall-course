@@ -1,0 +1,11 @@
+[Unit]
+Description=Oncall custom metrics for prometheus exporter
+
+[Service]
+User=ubuntu
+Group=ubuntu
+Environment="ONCALL_HOST=http://158.160.96.191:8080/"
+ExecStart=/home/ubuntu/sre-oncall-course/prometheus/custom/custom_oncall_exporter.py
+
+[Install]
+WantedBy=multi-user.target
