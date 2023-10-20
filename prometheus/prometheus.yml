@@ -16,7 +16,11 @@ scrape_configs:
         filters:
           - name: "publish"
             values: ["9999"]
-
+  - job_name: 'graybox'
+    scrape_interval: 1m
+    static_configs:
+      - targets: ['158.160.96.191:9337']
+ 
   - job_name: 'blackbox-http'
     metrics_path: /probe
     params:
