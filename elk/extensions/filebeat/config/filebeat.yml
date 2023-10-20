@@ -17,7 +17,17 @@ processors:
   - decode_json_fields:
       fields: ["message"]
       target: "log"
+  - script:
+      lang: javascript
+      id: redact-sensitive-info
+      source: |
+        function process(event) {
+            if (event.Get("log.source") === "req") {
+               event.Put("log.address", event.Get("log.message").match(/Adr\((\S+)\)/)[1]);
 
+               event.Put("log.status", event.Get("log.message").match(/Res\((\S+)\)/)[1]);
+            }
+        }
 
 output.logstash:
   hosts: [ logstash ]
