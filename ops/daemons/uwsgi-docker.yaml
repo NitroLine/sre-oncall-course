@@ -21,20 +21,25 @@ prod:
     memory-report: true
 
     # Logging
-    logformat: '%(ltime) [%(status)] %(method) %(uri) %(addr) [%(uagent)] RT:%(msecs) REF:%(referer) SZ:%(size) %(proto)'
+    
     log-4xx: true
     log-5xx: true
     log-x-forwarded-for: true
     log-slow: 1500
 
-    # access log
-    req-logger: file:/home/oncall/var/log/uwsgi/access.log
-
-    # error log
-    logger: file:/home/oncall/var/log/uwsgi/error.log
+    logger: default stdio
+    logger: applogger stdio
+    log-route: applogger msgName
+    log-route: default ^((?!msgName).)*$
+    log-encoder: json:default {"@timestamp":"${strftime:%%Y-%%m-%%dT%%H:%%M:%%S.666Z}","source":"uwsgi", "message":"${msg}"}
+    log-encoder: format:secondlogger ${msg}
+    log-encoder: nl
+    logger-req: stdio
+    log-req-encoder: json {"@timestamp":"${strftime:%%Y-%%m-%%dT%%H:%%M:%%S.666Z}","source":"req", "message":"${msg}"}
+    log-req-encoder: nl
 
     # put timestamp in the error log
-    logdate: true
+    # logdate: true
 
     # control nginx and oncall scheduler/notifier
     attach-daemon2:
