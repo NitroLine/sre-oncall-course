@@ -11,11 +11,8 @@ scrape_configs:
 
   - job_name: 'my-dockerized-services'
     scrape_interval: 1m
-    docker_sd_configs:
-      - host: unix:///var/run/docker.sock
-        filters:
-          - name: "publish"
-            values: ["9999"]
+    static_configs:
+      - targets: ['158.160.96.191:9999']
   - job_name: 'graybox'
     scrape_interval: 1m
     static_configs:

@@ -1,0 +1,32 @@
+version: '3.5'
+services:
+  node-exporter:
+    image: prom/node-exporter:latest
+    container_name: node-exporter
+    restart: unless-stopped
+    volumes:
+      - /proc:/host/proc:ro
+      - /sys:/host/sys:ro
+      - /:/rootfs:ro
+    network_mode: host
+    pid: host
+    command:
+      - '--web.listen-address=:9600'
+      - '--path.procfs=/host/proc'
+      - '--path.rootfs=/rootfs'
+      - '--path.sysfs=/host/sys'
+      - '--collector.textfile.directory=/rootfs/home/ubuntu/sre-oncall-course/metrics'
+      - '--collector.filesystem.mount-points-exclude=^/(sys|proc|dev|host|etc)($$|/)'
+      - '--no-collector.mdadm'
+      - '--no-collector.hwmon'
+      - '--no-collector.zfs'
+      - '--no-collector.thermal_zone'
+      - '--no-collector.nfs'
+      - '--no-collector.xfs'
+      - '--no-collector.fibrechannel'
+      - '--no-collector.tapestats'
+      - '--no-collector.selinux'
+      - '--no-collector.nfsd'
+      - '--no-collector.rapl'
+      - '--no-collector.btrfs'
+
