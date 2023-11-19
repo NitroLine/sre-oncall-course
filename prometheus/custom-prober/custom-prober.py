@@ -157,32 +157,33 @@ def create_event(team, user, role, date):
 def get_metric():
     try:
         create_user('prober.test')
-        success_counter.labels(create_user.__name__).inc()
+        success_counter.labels('create_user').inc()
         create_team('prober test team', 'Europe/Moscow', 'prbeer.test.team@probe.test', '#prober-test-team')
-        success_counter.labels(create_team.__name__).inc()
+        success_counter.labels('create_team').inc()
         create_roster('prober test team', 'duty')
-        success_counter.labels(create_roster.__name__).inc()
+        success_counter.labels('create_roster').inc()
         add_user_to_team_roster('prober test team', 'prober.test', 'duty')
-        success_counter.labels(add_user_to_team_roster.__name__).inc()
+        success_counter.labels('add_user_to_team_roster').inc()
         create_event('prober test team', 'prober.test', 'primary', datetime.now() + timedelta(days=4))
-        success_counter.labels(create_event.__name__).inc()
+        success_counter.labels('create_event').inc()
         teams = get_teams_list()
         if 'prober test team' not in teams:
-            failed_counter.labels(get_teams_list.__name__).inc()
+            failed_counter.labels('get_teams_list').inc()
             raise FailureError('no test team in list')
-        success_counter.labels(get_teams_list.__name__).inc()
+        success_counter.labels('get_teams_list').inc()
         next_duty = get_next('prober test team')
         if 'primary' not in next_duty['next']:
-            failed_counter.labels(get_next.__name__).inc()
+            failed_counter.labels('get_next').inc()
             raise FailureError('No next duty found in summary')
         found_users = next_duty['next']['primary']
         if len(found_users) != 1:
-            failed_counter.labels(get_next.__name__).inc()
+            failed_counter.labels('get_next').inc()
             raise FailureError('Wrong array len')
         found_user = found_users[0]
         if found_user['role'] != 'primary' or found_user['user'] != 'prober.test':
-            failed_counter.labels(get_next.__name__).inc()
+            failed_counter.labels('get_next').inc()
             raise FailureError('Wrong user duty in team')
+        success_counter.labels('get_next').inc()
     finally:
         delete_user('prober.test')
         delete_team('prober test team')
