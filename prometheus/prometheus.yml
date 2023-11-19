@@ -9,6 +9,11 @@ scrape_configs:
     static_configs:
       - targets: ['158.160.96.191:9600']
 
+  - job_name: 'custom-prober-scenario'
+    scrape_interval: 1m
+    static_configs:
+      - targets: ['158.160.96.191:9447']
+
   - job_name: 'my-dockerized-services'
     scrape_interval: 1m
     static_configs:
