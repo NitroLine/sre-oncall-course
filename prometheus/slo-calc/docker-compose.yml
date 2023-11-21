@@ -5,6 +5,6 @@ services:
       - EXPORTER_LOG_LEVEL=info
       - EXPORTER_METRICS_PORT=9227
       - EXPORTER_UPDATE_INTERVAL=60
-      - ONCALL_HOST=http://158.160.96.191:8080/
+      - PROMETHEUS_HOST=http://158.160.96.191:19090/
     ports:
       - "9227:9227"

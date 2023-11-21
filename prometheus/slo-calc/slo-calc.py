@@ -11,7 +11,7 @@ from prometheus_client import Gauge, start_http_server
 env = Env()
 env.read_env()
 
-PROMETHEUS_HOST = env("ONCALL_HOST", 'http://158.160.96.191:8080/')
+PROMETHEUS_HOST = env("PROMETHEUS_HOST", 'http://158.160.96.191:19090/')
 EXPORTER_SCRAPE_INTERVAL = env.int("EXPORTER_SCRAPE_INTERVA", 60)
 EXPORTER_METRICS_PORT = env.int("EXPORTER_METRICS_PORT", 9227)
 EXPORTER_LOG_LEVEL = env.log_level("EXPORTER_LOG_LEVEL", logging.INFO)
