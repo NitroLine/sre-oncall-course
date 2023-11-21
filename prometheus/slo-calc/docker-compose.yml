@@ -1,10 +1,23 @@
 services:
-  db-exporter:
+  sli-exporter:
     build: .
     environment:
       - EXPORTER_LOG_LEVEL=info
       - EXPORTER_METRICS_PORT=9227
       - EXPORTER_UPDATE_INTERVAL=60
+      - SLA_RANGE_HOURS=24
       - PROMETHEUS_HOST=http://158.160.96.191:19090/
+      - MONGO_DB_CONNECT_STRING=mongodb://root:example@mongodb:27017/sla-sli-data # Optional, set empty to disable save to database
     ports:
       - "9227:9227"
+  mongodb:
+    image: mongo:6-jammy
+    volumes:
+      - dbdatasla:/data/db
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: root
+      MONGO_INITDB_ROOT_PASSWORD: example
+
+volumes:
+  dbdatasla:
+
