@@ -123,7 +123,9 @@ def calc_sli_current_duty(slo=0.9):
 
 
 def calc_sla_history():
-    value = prometheus_request(f'1 - (10 * sum_over_time(sli_prober_full_scenario_failed[{SLA_RANGE_HOURS}h]) + 3 * sum_over_time(sli_prober_full_scenario_timeout[{SLA_RANGE_HOURS}h]) + sum_over_time(sli_current_duty_exits[{SLA_RANGE_HOURS}h]) + 2 * sum_over_time(sli_next_duty_exits[{SLA_RANGE_HOURS}h])) / ({SLA_RANGE_HOURS * 60} * 16)')
+    value = prometheus_request(f'1 - (10 * sum_over_time(sli_prober_full_scenario_failed[{SLA_RANGE_HOURS}h]) + 3 * sum_over_time(sli_prober_full_scenario_timeout[{SLA_RANGE_HOURS}h]) + sum_over_time(sli_current_duty_exits[{SLA_RANGE_HOURS}h]) + 2 * sum_over_time(sli_next_duty_exits[{SLA_RANGE_HOURS}h])) / ({SLA_RANGE_HOURS * 60} * 16)',
+                               time.time(),
+                               0)
     value = float(value)
     total_sla.set(value)
     return total_sla
