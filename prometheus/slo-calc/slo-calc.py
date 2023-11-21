@@ -77,15 +77,15 @@ def calc_sli_next_duty(slo=0.9):
 def calc_sli_current_duty(slo=0.9):
     week_no = datetime.today().weekday()
     if week_no > 5:  # Если сегодня выходной дежурных может не быть
-        next_duty_exits_sli.set(0)
+        current_duty_exits_sli.set(0)
         return 1
     value = prometheus_request('count(duty_current_roles_count{job!="prober test team"} > 0) / sum(total_teams_count)',
                                time.time(), 0)
     value = float(value)
     if value < slo:
-        next_duty_exits_sli.set(1)
+        current_duty_exits_sli.set(1)
         return 0
-    next_duty_exits_sli.set(0)
+    current_duty_exits_sli.set(0)
     return 1
 
 

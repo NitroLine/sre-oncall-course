@@ -1,5 +1,5 @@
 services:
-  oncall-exporter:
+  db-exporter:
     build: .
     environment:
       - EXPORTER_LOG_LEVEL=info
