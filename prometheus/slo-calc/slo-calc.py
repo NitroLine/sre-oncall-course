@@ -33,9 +33,10 @@ total_sla = Gauge('sla_total', 'Total service sla calculated from indicators and
 
 class DbWorker:
     def __init__(self, connect_string):
-        if not connect_string:
+        if not connect_string or len(connect_string) < 3:
             self.client = None
-        self.client = MongoClient(connect_string)
+        else:
+            self.client = MongoClient(connect_string)
 
     def save_to_mongodb(self, metric, value, slo, is_bad, timestamp):
         if not self.client:

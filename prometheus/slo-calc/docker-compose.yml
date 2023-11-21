@@ -7,7 +7,7 @@ services:
       - EXPORTER_UPDATE_INTERVAL=60
       - SLA_RANGE_HOURS=24
       - PROMETHEUS_HOST=http://158.160.96.191:19090/
-      - MONGO_DB_CONNECT_STRING=mongodb://root:example@mongodb:27017/sla-sli-data # Optional, set empty to disable save to database
+      - MONGO_DB_CONNECT_STRING= #mongodb://root:example@mongodb:27017/sla-sli-data  (Optional, set empty to disable save to database)
     ports:
       - "9227:9227"
   mongodb:
