@@ -1,0 +1,25 @@
+{{ define "__yucca_text_alert_list" }}{{ range . }}
+{{ if eq .Status "resolved" }}ℹ️ℹ️ℹ️{{ else if eq .Labels.severity "warning"}} ⚠️⚠️⚠️⚠️⚠️⚠️ {{ else if eq .Labels.severity "critical" }} 🔥🔥🔥🔥🔥🔥 {{ end }}
+----------
+<b>{{ .Labels.alertname }}</b>
+{{- if .Annotations.summary }}
+📝 {{ .Annotations.summary }}{{ end }}
+{{ if ne .Status "resolved" }}
+{{- if .Annotations.description }}
+📖 {{ .Annotations.description }}{{ end }}
+{{ end }}
+🏷 Labels:
+{{ range .Labels.SortedPairs }} <i>{{ .Name }}</i>: <code>{{ .Value }}</code>
+{{ end }}{{ end }}
+{{ end }}
+
+{{ define "telegram.yucca.message" }}
+{{ if gt (len .Alerts.Firing) 0 }}
+❗️ Alerts Firing  ❗️
+{{ template "__yucca_text_alert_list" .Alerts.Firing }}
+{{ end }}
+{{ if gt (len .Alerts.Resolved) 0 }}
+✅ Alerts Resolved ✅
+{{ template "__yucca_text_alert_list" .Alerts.Resolved }}
+{{ end }}
+{{ end }}

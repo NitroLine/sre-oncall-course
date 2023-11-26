@@ -11,14 +11,14 @@ services:
       - grafana-configs:/etc/grafana
   prometheus:
     image: prom/prometheus:latest
-    user: root
     container_name: prometheus
     restart: unless-stopped
+    user: root
     ports:
       - '19090:9090'
     volumes:
       - ./prometheus.yml:/etc/prometheus/prometheus.yml
-      - ./rules.yml:/etc/prometheus/rules.yml
+      - /var/run/docker.sock:/var/run/docker.sock:ro
       - prometheus_data:/prometheus
     command:
       - '--config.file=/etc/prometheus/prometheus.yml'
@@ -32,18 +32,10 @@ services:
       - "--config.file=/etc/blackbox/blackbox.yml"
     volumes:
       - ./blackbox.yml:/etc/blackbox/blackbox.yml
-  alertmanager:
-    image: prom/alertmanager
-    container_name: alertmanager
-    ports:
-      - "19093:9093"
-    command:
-      - '--config.file=/config/alertmanager.yml'    
-    volumes:
-      - alertmanager-data:/data
-      - "./alertmanager:/config"
+
+
+
 volumes:
   prometheus_data:
   grafana-data:
   grafana-configs:
-  alertmanager-data:

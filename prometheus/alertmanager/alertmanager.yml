@@ -1,0 +1,49 @@
+global:
+ resolve_timeout: 5m
+ telegram_api_url: "https://api.telegram.org"
+
+receivers:
+  - name: telegram
+    telegram_configs:
+      - chat_id: -1002020113723
+        bot_token: "6480159372:AAEwwm6B7qCaRL0_BZu_w0th9zQApLed-84"
+        api_url: "https://api.telegram.org"
+        send_resolved: true
+        message: '{{ template "telegram.yucca.message" . }}'
+  - name: telegram_without_sounds
+    telegram_configs:
+      - chat_id: -1002020113723
+        bot_token: "6480159372:AAEwwm6B7qCaRL0_BZu_w0th9zQApLed-84"
+        api_url: "https://api.telegram.org"
+        send_resolved: false
+        message: '{{ template "telegram.yucca.message" . }}'
+        disable_notifications: true
+
+
+route:
+  group_by: ['instance']
+  receiver: telegram
+  routes:
+   - receiver: telegram
+     continue: true
+     matchers:
+      - severity="critical"
+   - receiver: telegram_without_sounds
+     continue: true
+     active_time_intervals:
+      - only_at_work
+     matchers:
+      - severity="warning"
+
+time_intervals:
+  - name: only_at_work
+    time_intervals:
+     - times:
+       - start_time: 11:00
+         end_time: 19:00
+     - weekdays: ['monday:friday']
+     - location: 'Asia/Yekaterinburg'
+
+
+templates:
+- '/config/telegram_template.tmpl'

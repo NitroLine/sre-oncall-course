@@ -9,6 +9,11 @@ scrape_configs:
     static_configs:
       - targets: ['158.160.96.191:9600']
 
+  - job_name: 'sla-calculator'
+    scrape_interval: 1m
+    static_configs:
+      - targets: ['158.160.96.191:9227']
+
   - job_name: 'custom-prober-scenario'
     scrape_interval: 1m
     static_configs:
@@ -67,3 +72,12 @@ scrape_configs:
         target_label: instance
       - target_label: __address__
         replacement: blackbox:9115  # The blackbox exporter's real hostname:port.
+
+rule_files:
+  - 'rules.yml'
+
+alerting:
+  alertmanagers:
+    - scheme: http
+      static_configs:
+        - targets: [ 'alertmanager:9093' ]
