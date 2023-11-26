@@ -39,10 +39,10 @@ time_intervals:
   - name: only_at_work
     time_intervals:
      - times:
-       - start_time: 11:00
-         end_time: 19:00
-     - weekdays: ['monday:friday']
-     - location: 'Asia/Yekaterinburg'
+        - start_time: 11:00
+          end_time: 19:00
+       weekdays: ['monday:friday']
+       location: 'Asia/Yekaterinburg'
 
 
 templates:
