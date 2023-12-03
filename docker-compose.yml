@@ -4,8 +4,6 @@ services:
   oncall-web:
     build: .
     hostname: oncall
-    ports:
-      - "9999:9999"
     environment:
       - DOCKER_DB_BOOTSTRAP=1
       - IRIS_API_HOST=iris
@@ -16,8 +14,6 @@ services:
   oncall-web-2:
     build: .
     hostname: oncall2
-    ports:
-      - "9998:9999"
     environment:
       - DOCKER_DB_BOOTSTRAP=1
       - IRIS_API_HOST=iris
