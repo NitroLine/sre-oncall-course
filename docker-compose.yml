@@ -5,7 +5,6 @@ services:
     build: .
     hostname: oncall
     ports:
-      - "8080:8080"
       - "9999:9999"
     environment:
       - DOCKER_DB_BOOTSTRAP=1
@@ -14,7 +13,24 @@ services:
       - ./configs/config.docker.yaml:/home/oncall/config/config.yaml
     networks:
       - iris
-  
+  oncall-web-2:
+    build: .
+    hostname: oncall2
+    ports:
+      - "9998:9999"
+    environment:
+      - DOCKER_DB_BOOTSTRAP=1
+      - IRIS_API_HOST=iris
+    volumes:
+      - ./configs/config.docker.yaml:/home/oncall/config/config.yaml
+    networks:
+      - iris
+  balancer:
+    build: ./balancer
+    ports:
+      - "8080:80"
+    networks:
+      - iris  
   oncall-mysql:
     hostname: oncall-mysql
     image: mysql:5.7
@@ -22,7 +38,16 @@ services:
       - MYSQL_ROOT_PASSWORD=1234
     networks:
       - iris
-
+  nginx-exporter:
+    image: nginx/nginx-prometheus-exporter
+    ports:
+      - "9113:9113"
+    command:
+      - "-nginx.scrape-uri=http://balancer:80/stub_status"
+    networks:
+      - iris
+    depends_on:
+     - balancer
 networks:
   iris:
     name: iris

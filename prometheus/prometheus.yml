@@ -4,6 +4,11 @@ scrape_configs:
     static_configs:
       - targets: ['localhost:9090']
 
+  - job_name: 'nginx-exporter'
+    scrape_interval: 1m
+    static_configs:
+      - targets: ['158.160.96.191:9113']
+
   - job_name: 'external-node'
     scrape_interval: 1m
     static_configs:
