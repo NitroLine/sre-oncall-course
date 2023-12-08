@@ -25,6 +25,8 @@ services:
     build: ./balancer
     ports:
       - "8080:80"
+    volumes:
+      - ./balancer/nginx.conf:/etc/nginx/conf.d/nginx.conf
     networks:
       - iris  
   oncall-mysql:
