@@ -1,4 +1,4 @@
-config_path="balancer/nginx.conf"
+config_path="balancer/configs/nginx.conf"
 sed -i "s/oncall:8080/oncall:8080 down/" "$config_path";
 docker exec -it sre-oncall-course-balancer-1 nginx -s reload;
 docker compose down oncall-web;
